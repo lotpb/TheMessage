@@ -1,0 +1,6 @@
+framework module Pods_TheMessage {
+  umbrella header "Pods-TheMessage-umbrella.h"
+
+  export *
+  module * { export * }
+}

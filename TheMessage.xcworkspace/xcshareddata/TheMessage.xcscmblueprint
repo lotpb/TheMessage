@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "2C50B15B44F7611108A0B7F26E90764398ED7916",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "041669095B4ED5252CA507726C21076BF644C5AF" : 0,
+    "2C50B15B44F7611108A0B7F26E90764398ED7916" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "C51FAABE-943F-4CF5-A9ED-51DF24350A9E",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "041669095B4ED5252CA507726C21076BF644C5AF" : "..\/..\/Downloads\/gameofchats",
+    "2C50B15B44F7611108A0B7F26E90764398ED7916" : "TheMessage\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "TheMessage",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "TheMessage.xcworkspace",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:purelyswift\/gameofchats.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "041669095B4ED5252CA507726C21076BF644C5AF"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/lotpb\/TheMessage.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "2C50B15B44F7611108A0B7F26E90764398ED7916"
+    }
+  ]
+}
