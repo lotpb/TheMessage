@@ -9,7 +9,7 @@
 import UIKit
 import Firebase
 
-let imageCache = NSMutableDictionary() //Cache()
+let imageCache = NSCache<AnyObject, AnyObject>() //Cache()
 
 extension UIImageView {
     
