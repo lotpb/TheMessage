@@ -87,20 +87,20 @@ class ChatLogController: UICollectionViewController, UITextFieldDelegate, UIColl
         present(imagePickerController, animated: true, completion: nil)
     }
     
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         
         if let videoUrl = info[UIImagePickerControllerMediaURL] as? URL {
             //we selected a video
             handleVideoSelectedForUrl(videoUrl)
         } else {
             //we selected an image
-            handleImageSelectedForInfo(info)
+            handleImageSelectedForInfo(info as [String : AnyObject])
         }
         
         dismiss(animated: true, completion: nil)
     }
     
-    private func handleVideoSelectedForUrl(_ url: URL) {
+    fileprivate func handleVideoSelectedForUrl(_ url: URL) {
         let filename = UUID().uuidString + ".mov"
         let uploadTask = FIRStorage.storage().reference().child("message_movies").child(filename).putFile(url, metadata: nil, completion: { (metadata, error) in
             
@@ -113,7 +113,7 @@ class ChatLogController: UICollectionViewController, UITextFieldDelegate, UIColl
                 if let thumbnailImage = self.thumbnailImageForFileUrl(url) {
                     
                     self.uploadToFirebaseStorageUsingImage(thumbnailImage, completion: { (imageUrl) in
-                        let properties: [String: AnyObject] = ["imageUrl": imageUrl, "imageWidth": thumbnailImage.size.width, "imageHeight": thumbnailImage.size.height, "videoUrl": videoUrl]
+                        let properties: [String: AnyObject] = ["imageUrl": imageUrl as AnyObject, "imageWidth": thumbnailImage.size.width as AnyObject, "imageHeight": thumbnailImage.size.height as AnyObject, "videoUrl": videoUrl as AnyObject]
                         self.sendMessageWithProperties(properties)
                         
                     })
@@ -132,7 +132,7 @@ class ChatLogController: UICollectionViewController, UITextFieldDelegate, UIColl
         }
     }
     
-    private func thumbnailImageForFileUrl(_ fileUrl: URL) -> UIImage? {
+    fileprivate func thumbnailImageForFileUrl(_ fileUrl: URL) -> UIImage? {
         let asset = AVAsset(url: fileUrl)
         let imageGenerator = AVAssetImageGenerator(asset: asset)
         
@@ -148,7 +148,7 @@ class ChatLogController: UICollectionViewController, UITextFieldDelegate, UIColl
         return nil
     }
     
-    private func handleImageSelectedForInfo(_ info: [String: AnyObject]) {
+    fileprivate func handleImageSelectedForInfo(_ info: [String: AnyObject]) {
         var selectedImageFromPicker: UIImage?
         
         if let editedImage = info["UIImagePickerControllerEditedImage"] as? UIImage {
@@ -165,7 +165,7 @@ class ChatLogController: UICollectionViewController, UITextFieldDelegate, UIColl
         }
     }
     
-    private func uploadToFirebaseStorageUsingImage(_ image: UIImage, completion: (imageUrl: String) -> ()) {
+    fileprivate func uploadToFirebaseStorageUsingImage(_ image: UIImage, completion: @escaping (_ imageUrl: String) -> ()) {
         let imageName = UUID().uuidString
         let ref = FIRStorage.storage().reference().child("message_images").child(imageName)
         
@@ -178,7 +178,7 @@ class ChatLogController: UICollectionViewController, UITextFieldDelegate, UIColl
                 }
                 
                 if let imageUrl = metadata?.downloadURL()?.absoluteString {
-                    completion(imageUrl: imageUrl)
+                    completion(imageUrl)
                 }
                 
             })
@@ -223,8 +223,8 @@ class ChatLogController: UICollectionViewController, UITextFieldDelegate, UIColl
     }
     
     func handleKeyboardWillShow(_ notification: Notification) {
-        let keyboardFrame = (notification as NSNotification).userInfo?[UIKeyboardFrameEndUserInfoKey]?.cgRectValue
-        let keyboardDuration = (notification as NSNotification).userInfo?[UIKeyboardAnimationDurationUserInfoKey]?.doubleValue
+        let keyboardFrame = ((notification as NSNotification).userInfo?[UIKeyboardFrameEndUserInfoKey] as AnyObject).cgRectValue
+        let keyboardDuration = ((notification as NSNotification).userInfo?[UIKeyboardAnimationDurationUserInfoKey] as AnyObject).doubleValue
         
         containerViewBottomAnchor?.constant = -keyboardFrame!.height
         UIView.animate(withDuration: keyboardDuration!) {
@@ -233,7 +233,7 @@ class ChatLogController: UICollectionViewController, UITextFieldDelegate, UIColl
     }
     
     func handleKeyboardWillHide(_ notification: Notification) {
-        let keyboardDuration = (notification as NSNotification).userInfo?[UIKeyboardAnimationDurationUserInfoKey]?.doubleValue
+        let keyboardDuration = ((notification as NSNotification).userInfo?[UIKeyboardAnimationDurationUserInfoKey] as AnyObject).doubleValue
         
         containerViewBottomAnchor?.constant = 0
         UIView.animate(withDuration: keyboardDuration!) {
@@ -273,8 +273,9 @@ class ChatLogController: UICollectionViewController, UITextFieldDelegate, UIColl
         return cell
     }
     
-    private func setupCell(_ cell: ChatMessageCell, message: Message) {
+    fileprivate func setupCell(_ cell: ChatMessageCell, message: Message) {
         if let profileImageUrl = self.user?.profileImageUrl {
+            
             cell.profileImageView.loadImageUsingCacheWithUrlString(profileImageUrl)
         }
         
@@ -298,6 +299,7 @@ class ChatLogController: UICollectionViewController, UITextFieldDelegate, UIColl
         }
         
         if let messageImageUrl = message.imageUrl {
+            
             cell.messageImageView.loadImageUsingCacheWithUrlString(messageImageUrl)
             cell.messageImageView.isHidden = false
             cell.bubbleView.backgroundColor = UIColor.clear
@@ -331,7 +333,7 @@ class ChatLogController: UICollectionViewController, UITextFieldDelegate, UIColl
         return CGSize(width: width, height: height)
     }
     
-    private func estimateFrameForText(_ text: String) -> CGRect {
+    fileprivate func estimateFrameForText(_ text: String) -> CGRect {
         let size = CGSize(width: 200, height: 1000)
         let options = NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
         return NSString(string: text).boundingRect(with: size, options: options, attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 16)], context: nil)
@@ -341,22 +343,22 @@ class ChatLogController: UICollectionViewController, UITextFieldDelegate, UIColl
     
     func handleSend() {
         let properties = ["text": inputContainerView.inputTextField.text!]
+        sendMessageWithProperties(properties as [String : AnyObject])
+    }
+    
+    fileprivate func sendMessageWithImageUrl(_ imageUrl: String, image: UIImage) {
+        let properties: [String: AnyObject] = ["imageUrl": imageUrl as AnyObject, "imageWidth": image.size.width as AnyObject, "imageHeight": image.size.height as AnyObject]
         sendMessageWithProperties(properties)
     }
     
-    private func sendMessageWithImageUrl(_ imageUrl: String, image: UIImage) {
-        let properties: [String: AnyObject] = ["imageUrl": imageUrl, "imageWidth": image.size.width, "imageHeight": image.size.height]
-        sendMessageWithProperties(properties)
-    }
-    
-    private func sendMessageWithProperties(_ properties: [String: AnyObject]) {
+    fileprivate func sendMessageWithProperties(_ properties: [String: AnyObject]) {
         let ref = FIRDatabase.database().reference().child("messages")
         let childRef = ref.childByAutoId()
         let toId = user!.id!
         let fromId = FIRAuth.auth()!.currentUser!.uid
-        let timestamp: NSNumber = Int(Date().timeIntervalSince1970)
+        let timestamp = NSNumber(value: Int(Date().timeIntervalSince1970))
         
-        var values: [String: AnyObject] = ["toId": toId, "fromId": fromId, "timestamp": timestamp]
+        var values: [String: AnyObject] = ["toId": toId as AnyObject, "fromId": fromId as AnyObject, "timestamp": timestamp]
         
         //append properties dictionary onto values somehow??
         //key $0, value $1

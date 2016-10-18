@@ -122,7 +122,7 @@ class MessagesController: UITableViewController {
         self.messages = Array(self.messagesDictionary.values)
         self.messages.sort(by: { (message1, message2) -> Bool in
             
-            return message1.timestamp?.int32Value > message2.timestamp?.int32Value
+            return (message1.timestamp?.int32Value)! > (message2.timestamp?.int32Value)!
         })
         
         //this will crash because of background thread, so lets call this on dispatch_async main thread
@@ -189,7 +189,6 @@ class MessagesController: UITableViewController {
             //for some reason uid = nil
             return
         }
-        
         FIRDatabase.database().reference().child("users").child(uid).observeSingleEvent(of: .value, with: { (snapshot) in
             
             if let dictionary = snapshot.value as? [String: AnyObject] {

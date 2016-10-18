@@ -39,6 +39,7 @@ class LoginController: UIViewController {
         if loginRegisterSegmentedControl.selectedSegmentIndex == 0 {
             handleLogin()
         } else {
+            
             handleRegister()
         }
     }
@@ -85,6 +86,7 @@ class LoginController: UIViewController {
         let tf = UITextField()
         tf.placeholder = "Email"
         tf.text = "eunited@optonline.net"
+        tf.keyboardType = UIKeyboardType.emailAddress
         tf.translatesAutoresizingMaskIntoConstraints = false
         return tf
     }()
@@ -100,6 +102,7 @@ class LoginController: UIViewController {
         let tf = UITextField()
         tf.placeholder = "Password"
         tf.text = "united"
+        tf.keyboardType = UIKeyboardType.numbersAndPunctuation
         tf.translatesAutoresizingMaskIntoConstraints = false
         tf.isSecureTextEntry = true
         return tf
@@ -127,6 +130,10 @@ class LoginController: UIViewController {
     }()
     
     func handleLoginRegisterChange() {
+        
+        nameTextField.text = ""
+        nameTextField.placeholder = ""
+        
         let title = loginRegisterSegmentedControl.titleForSegment(at: loginRegisterSegmentedControl.selectedSegmentIndex)
         loginRegisterButton.setTitle(title, for: UIControlState())
         
@@ -162,7 +169,7 @@ class LoginController: UIViewController {
         setupProfileImageView()
         setupLoginRegisterSegmentedControl()
         
-        handleLoginRegisterChange()
+        handleLoginRegisterChange() //added
    
     }
     
@@ -241,6 +248,7 @@ class LoginController: UIViewController {
     }
     
     func setupLoginRegisterButton() {
+        
         //need x, y, width, height constraints
         loginRegisterButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         loginRegisterButton.topAnchor.constraint(equalTo: inputsContainerView.bottomAnchor, constant: 12).isActive = true

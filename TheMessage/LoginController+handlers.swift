@@ -45,14 +45,14 @@ extension LoginController: UIImagePickerControllerDelegate, UINavigationControll
                         
                         let values = ["name": name, "email": email, "profileImageUrl": profileImageUrl]
                         
-                        self.registerUserIntoDatabaseWithUID(uid, values: values)
+                        self.registerUserIntoDatabaseWithUID(uid, values: values as [String : AnyObject])
                     }
                 })
             }
         })
     }
     
-    private func registerUserIntoDatabaseWithUID(_ uid: String, values: [String: AnyObject]) {
+    fileprivate func registerUserIntoDatabaseWithUID(_ uid: String, values: [String: AnyObject]) {
         let ref = FIRDatabase.database().reference()
         let usersReference = ref.child("users").child(uid)
         
@@ -63,8 +63,8 @@ extension LoginController: UIImagePickerControllerDelegate, UINavigationControll
                 return
             }
             
-            //            self.messagesController?.fetchUserAndSetupNavBarTitle()
-            //            self.messagesController?.navigationItem.title = values["name"] as? String
+            //        self.messagesController?.fetchUserAndSetupNavBarTitle()
+            //        self.messagesController?.navigationItem.title = values["name"] as? String
             let user = User()
             //this setter potentially crashes if keys don't match
             user.setValuesForKeys(values)
@@ -83,7 +83,7 @@ extension LoginController: UIImagePickerControllerDelegate, UINavigationControll
         present(picker, animated: true, completion: nil)
     }
     
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         
         var selectedImageFromPicker: UIImage?
         

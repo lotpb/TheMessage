@@ -9,7 +9,7 @@
 import UIKit
 import Firebase
 
-let imageCache = NSCache<AnyObject, AnyObject>() //Cache()
+let imageCache = NSCache<NSString, UIImage>()
 
 extension UIImageView {
     
@@ -18,7 +18,7 @@ extension UIImageView {
         self.image = nil
         
         //check cache for image first
-        if let cachedImage = imageCache.object(forKey: urlString) as? UIImage {
+        if let cachedImage = imageCache.object(forKey: urlString as NSString) {
             self.image = cachedImage
             return
         }
@@ -36,7 +36,7 @@ extension UIImageView {
             DispatchQueue.main.async(execute: {
                 
                 if let downloadedImage = UIImage(data: data!) {
-                    imageCache.setObject(downloadedImage, forKey: urlString)
+                    imageCache.setObject(downloadedImage, forKey: urlString as NSString)
                     
                     self.image = downloadedImage
                 }
@@ -44,4 +44,20 @@ extension UIImageView {
             
         }).resume()
     }
+}
+
+extension UIView {
+    
+    func addConstraintsWithFormat(format: String, views: UIView...) {
+        
+        var viewsDictionary = [String: UIView]()
+        for (index, view) in views.enumerated() {
+            let key = "v\(index)"
+            viewsDictionary[key] = view
+            view.translatesAutoresizingMaskIntoConstraints = false
+        }
+        
+        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: format, options: NSLayoutFormatOptions(), metrics: nil, views: viewsDictionary))
+    }
+    
 }

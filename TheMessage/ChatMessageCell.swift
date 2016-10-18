@@ -83,6 +83,26 @@ class ChatMessageCell: UICollectionViewCell {
         return view
     }()
     
+    let textBubbleView: UIView = {
+        let view = UIView()
+        //  view.backgroundColor = UIColor(white: 0.95, alpha: 1)
+        view.layer.cornerRadius = 15
+        view.layer.masksToBounds = true
+        return view
+    }()
+    
+    /*
+    static let grayBubbleImage = UIImage(named: "bubble_gray")!.resizableImage(withCapInsets: UIEdgeInsetsMake(22, 26, 22, 26)).withRenderingMode(.alwaysTemplate)
+    static let blueBubbleImage = UIImage(named: "bubble_blue")!.resizableImage(withCapInsets: UIEdgeInsetsMake(22, 26, 22, 26)).withRenderingMode(.alwaysTemplate)
+    
+
+    let bubbleImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = ChatMessageCell.grayBubbleImage
+        imageView.tintColor = UIColor(white: 0.90, alpha: 1)
+        return imageView
+    }() */
+    
     let profileImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -180,6 +200,12 @@ class ChatMessageCell: UICollectionViewCell {
         
         
         textView.heightAnchor.constraint(equalTo: self.heightAnchor).isActive = true
+        
+
+        /*
+        textBubbleView.addSubview(bubbleImageView)
+        textBubbleView.addConstraintsWithFormat("H:|[v0]|", views: bubbleImageView)
+        textBubbleView.addConstraintsWithFormat("V:|[v0]|", views: bubbleImageView) */
     }
     
     required init?(coder aDecoder: NSCoder) {
