@@ -105,7 +105,7 @@ class ChatLogController: UICollectionViewController, UITextFieldDelegate, UIColl
         let uploadTask = FIRStorage.storage().reference().child("message_movies").child(filename).putFile(url, metadata: nil, completion: { (metadata, error) in
             
             if error != nil {
-                print("Failed upload of video:", error)
+                print("Failed upload of video:", error!)
                 return
             }
             
@@ -173,7 +173,7 @@ class ChatLogController: UICollectionViewController, UITextFieldDelegate, UIColl
             ref.put(uploadData, metadata: nil, completion: { (metadata, error) in
                 
                 if error != nil {
-                    print("Failed to upload image:", error)
+                    print("Failed to upload image:", error!)
                     return
                 }
                 
@@ -366,7 +366,7 @@ class ChatLogController: UICollectionViewController, UITextFieldDelegate, UIColl
         
         childRef.updateChildValues(values) { (error, ref) in
             if error != nil {
-                print(error)
+                print(error!)
                 return
             }
             

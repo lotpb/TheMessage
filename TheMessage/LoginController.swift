@@ -53,7 +53,7 @@ class LoginController: UIViewController {
         FIRAuth.auth()?.signIn(withEmail: email, password: password, completion: { (user, error) in
             
             if error != nil {
-                print(error)
+                print(error!)
                 return
             }
             

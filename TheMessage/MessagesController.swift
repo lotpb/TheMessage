@@ -46,7 +46,7 @@ class MessagesController: UITableViewController {
             FIRDatabase.database().reference().child("user-messages").child(uid).child(chatPartnerId).removeValue(completionBlock: { (error, ref) in
                 
                 if error != nil {
-                    print("Failed to delete message:", error)
+                    print("Failed to delete message:", error!)
                     return
                 }
                 
