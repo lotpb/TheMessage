@@ -29,7 +29,6 @@ class ChatMessageCell: UICollectionViewCell {
         button.alpha = 0.9
         button.tintColor = UIColor.white
         button.setImage(image, for: UIControlState())
-        
         button.addTarget(self, action: #selector(handlePlay), for: .touchUpInside)
         
         return button
@@ -41,15 +40,12 @@ class ChatMessageCell: UICollectionViewCell {
     func handlePlay() {
         if let videoUrlString = message?.videoUrl, let url = URL(string: videoUrlString) {
             player = AVPlayer(url: url)
-            
             playerLayer = AVPlayerLayer(player: player)
             playerLayer?.frame = bubbleView.bounds
             bubbleView.layer.addSublayer(playerLayer!)
-            
             player?.play()
             activityIndicatorView.startAnimating()
             playButton.isHidden = true
-            
             print("Attempting to play video......???")
         }
     }
